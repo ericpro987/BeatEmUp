@@ -1,13 +1,44 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-4888770511413790048
+--- !u!1107 &-8899438488276166852
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Base Layer
+  m_ChildStates:
+  - serializedVersion: 1
+    m_State: {fileID: 589110410070020178}
+    m_Position: {x: 303.4077, y: 137.4207, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6931229320617321486}
+    m_Position: {x: 338.4077, y: 202.4207, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5873885137612218239}
+    m_Position: {x: 373.4077, y: 267.42072, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -737350394476297282}
+    m_Position: {x: 111.91968, y: 237.58582, z: 0}
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions: {}
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_DefaultState: {fileID: -737350394476297282}
+--- !u!1102 &-6931229320617321486
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: KnightDefense
+  m_Name: PjAttack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,20 +51,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 6f4a4679fe3854d47b4392631e004683, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6418cd37d137cb44a9ce946fdde6d55f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-1385562591272536574
+--- !u!1102 &-737350394476297282
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: KnightMove
+  m_Name: PjIdle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -46,7 +77,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5e7894f7a0a803147b43f2e0f2faf244, type: 2}
+  m_Motion: {fileID: 7400000, guid: 4a0f7d2fe4abcca4ba8463eaa2cf3f53, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -58,13 +89,13 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: KnightAnimatotr
+  m_Name: PjAnimator
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
-    m_StateMachine: {fileID: 3362723102479686812}
+    m_StateMachine: {fileID: -8899438488276166852}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -74,14 +105,14 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &541085939702773400
+--- !u!1102 &589110410070020178
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: KnightIdle
+  m_Name: PjMove
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -94,20 +125,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ae52a428d31a42f49a65ef13b7e10e03, type: 2}
+  m_Motion: {fileID: 7400000, guid: ef46ec7557c566545b81446132c0afca, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1085516674754585474
+--- !u!1102 &5873885137612218239
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: KnightAttack
+  m_Name: PjAttack2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -120,40 +151,9 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ab57957ac39eacd498655fb7c36a8684, type: 2}
+  m_Motion: {fileID: 7400000, guid: b30ca87cc090b2143b3d1c75e5cf7404, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1107 &3362723102479686812
-AnimatorStateMachine:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Base Layer
-  m_ChildStates:
-  - serializedVersion: 1
-    m_State: {fileID: -1385562591272536574}
-    m_Position: {x: 397, y: 80.5, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1085516674754585474}
-    m_Position: {x: 432, y: 145.5, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 541085939702773400}
-    m_Position: {x: 467, y: 210.5, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4888770511413790048}
-    m_Position: {x: 502, y: 275.5, z: 0}
-  m_ChildStateMachines: []
-  m_AnyStateTransitions: []
-  m_EntryTransitions: []
-  m_StateMachineTransitions: {}
-  m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 60, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
-  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 1085516674754585474}
