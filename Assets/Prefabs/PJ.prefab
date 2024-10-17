@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 4020255368318378527}
   - component: {fileID: 6187738834369742592}
   - component: {fileID: 8130018373032467773}
-  m_Layer: 0
+  - component: {fileID: 3438308756824808592}
+  - component: {fileID: 7564422338274419539}
+  m_Layer: 7
   m_Name: PJ
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +160,52 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6363637, y: 1.76422}
   m_EdgeRadius: 0
+--- !u!114 &3438308756824808592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516719528482948669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdc4611e3809452408740c7872ab2c0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ActionAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _AttackClip: {fileID: 7400000, guid: 6418cd37d137cb44a9ce946fdde6d55f, type: 2}
+  _Attack2Clip: {fileID: 7400000, guid: b30ca87cc090b2143b3d1c75e5cf7404, type: 2}
+  _IdleClip: {fileID: 7400000, guid: 4a0f7d2fe4abcca4ba8463eaa2cf3f53, type: 2}
+  _MoveClip: {fileID: 7400000, guid: ef46ec7557c566545b81446132c0afca, type: 2}
+  _CurrentState: 0
+  _StateTime: 0
+--- !u!50 &7564422338274419539
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516719528482948669}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1878619068785287635
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1874510259769227630}
   - component: {fileID: 6545898295427987233}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

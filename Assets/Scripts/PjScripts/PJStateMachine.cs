@@ -1,9 +1,6 @@
-using Unity.Burst.Intrinsics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
-using static UnityEditor.VersionControl.Asset;
 
 namespace uf2
 {
@@ -13,6 +10,7 @@ namespace uf2
         private Animator _Animator;
         [SerializeField] private InputActionAsset _ActionAsset;
         private InputActionAsset _InputAction;
+        private InputAction _MovementAction;
 
         [SerializeField] private AnimationClip _AttackClip;
         [SerializeField] private AnimationClip _Attack2Clip;
@@ -25,7 +23,7 @@ namespace uf2
 
             _InputAction = Instantiate(_ActionAsset);
 
-            _InputAction.FindActionMap("Player").FindAction("Move").performed += OnMovement;
+            _MovementAction = _InputAction.FindActionMap("Player").FindAction("Move");
             _InputAction.FindActionMap("Player").FindAction("Attack").performed += OnAttack;
             _InputAction.FindActionMap("Player").FindAction("Attack2").performed += OnAttackStrong;
 
@@ -34,7 +32,7 @@ namespace uf2
 
         }
 
-        private enum SkeletonStates { NULL, IDLE, ATTACK, ATTACK2, MOVE }
+        private enum SkeletonStates { NULL, IDLE, ATTACK, ATTACK2, MOVE, COMBO12, COMBO21 }
         [SerializeField] private SkeletonStates _CurrentState;
         [SerializeField] private float _StateTime;
         private bool _ComboAvailable;
@@ -72,46 +70,74 @@ namespace uf2
             switch (_CurrentState)
             {
                 case SkeletonStates.IDLE:
+                    this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                     _Animator.Play("PjIdle");
                     break;
+                case SkeletonStates.MOVE:
+                    _Animator.Play("PjMove");
+                    break;
+
                 case SkeletonStates.ATTACK:
                     _Animator.Play("PjAttack");
                     break;
                 case SkeletonStates.ATTACK2:
                     _Animator.Play("PjAttack2");
                     break;
-                case SkeletonStates.MOVE:
-                    _Animator.Play("PjMove");
+                case SkeletonStates.COMBO12:
+                    _Animator.Play("PjAttack2");
+                    break;
+                case SkeletonStates.COMBO21:
+                    _Animator.Play("PjAttack");
                     break;
                 default:
                     break;
             }
         }
 
-
         private void UpdateState(SkeletonStates updateState)
         {
-            Vector2 dir = _InputAction.FindActionMap("Player").FindAction("Move").ReadValue<Vector2>();
+            Vector2 dir = _MovementAction.ReadValue<Vector2>();
             _StateTime += Time.deltaTime;
 
             switch (updateState)
             {
                 case SkeletonStates.IDLE:
+                    if (dir != Vector2.zero)
+                        ChangeState(SkeletonStates.MOVE);
                     break;
 
+                case SkeletonStates.MOVE:
+                    if (dir == Vector2.zero)
+                    {
+                        ChangeState(SkeletonStates.IDLE);
+                        break;
+                    }
+
+                    if (dir.x > 0)
+                    {
+                        this.transform.eulerAngles = Vector3.zero;
+                    }
+                    else if (dir.x < 0)
+                    {
+                        this.transform.eulerAngles = Vector3.up * 180;
+                    }
+
+                    this.GetComponent<Rigidbody2D>().velocity = dir * 1;
+                    break;
+
+
                 case SkeletonStates.ATTACK:
+                case SkeletonStates.COMBO21:
                     if (_StateTime >= _AttackClip.length)
                         ChangeState(SkeletonStates.IDLE);
                     break;
 
                 case SkeletonStates.ATTACK2:
+                case SkeletonStates.COMBO12:
                     if (_StateTime >= _Attack2Clip.length)
                         ChangeState(SkeletonStates.IDLE);
                     break;
-                case SkeletonStates.MOVE:
-                    if (dir.x != 0 )
-                        ChangeState(SkeletonStates.IDLE);
-                    break;
+
                 default:
                     break;
             }
@@ -121,15 +147,17 @@ namespace uf2
         {
             switch (exitState)
             {
-                case SkeletonStates.IDLE:
+                case SkeletonStates.MOVE:
+                    this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                     break;
+
                 case SkeletonStates.ATTACK:
+                case SkeletonStates.ATTACK2:
+                case SkeletonStates.COMBO12:
+                case SkeletonStates.COMBO21:
                     _ComboAvailable = false;
                     break;
-                case SkeletonStates.ATTACK2:
-                    break;
-                case SkeletonStates.MOVE:
-                    break;
+
                 default:
                     break;
             }
@@ -142,11 +170,10 @@ namespace uf2
                 case SkeletonStates.MOVE:
                     ChangeState(SkeletonStates.ATTACK);
                     break;
-                case SkeletonStates.ATTACK:
-                    if (_ComboAvailable)
-                        ChangeState(SkeletonStates.ATTACK2);
-                    break;
+
                 case SkeletonStates.ATTACK2:
+                    if (_ComboAvailable)
+                        ChangeState(SkeletonStates.COMBO21);
                     break;
                 default:
                     break;
@@ -160,29 +187,16 @@ namespace uf2
                 case SkeletonStates.MOVE:
                     ChangeState(SkeletonStates.ATTACK2);
                     break;
+
                 case SkeletonStates.ATTACK:
-                    break;
-                case SkeletonStates.ATTACK2:
+                    if (_ComboAvailable)
+                        ChangeState(SkeletonStates.COMBO12);
                     break;
                 default:
                     break;
             }
         }
-        private void OnMovement(InputAction.CallbackContext context)
-        {
-            switch (_CurrentState)
-            {
-                case SkeletonStates.IDLE:
-                    ChangeState(SkeletonStates.MOVE);
-                    break;
-                case SkeletonStates.ATTACK:
-                    break;
-                case SkeletonStates.ATTACK2:
-                    break;
-                default:
-                    break;
-            }
-        }
+
         private void Update()
         {
             UpdateState(_CurrentState);
