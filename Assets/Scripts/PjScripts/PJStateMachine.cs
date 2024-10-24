@@ -5,8 +5,9 @@ using UnityEngine.InputSystem;
 namespace uf2
 {
     [RequireComponent(typeof(Animator))]
-    public class SkeletonStateMachineSwitch : MonoBehaviour
+    public class PJStateMachineSwitch : MonoBehaviour, IDamageable
     {
+        [SerializeField] Hitbox hitbox;
         private Animator _Animator;
         [SerializeField] private InputActionAsset _ActionAsset;
         private InputActionAsset _InputAction;
@@ -16,6 +17,9 @@ namespace uf2
         [SerializeField] private AnimationClip _Attack2Clip;
         [SerializeField] private AnimationClip _IdleClip;
         [SerializeField] private AnimationClip _MoveClip;
+        [SerializeField] private float _hp;    
+        private int _atack1dmg = 2;
+        private int _atack2dmg = 4;
         private void Awake()
         {
             _Animator = GetComponent<Animator>();
@@ -36,6 +40,7 @@ namespace uf2
         [SerializeField] private SkeletonStates _CurrentState;
         [SerializeField] private float _StateTime;
         private bool _ComboAvailable;
+
 
         public void StartCombo()
         {
@@ -79,15 +84,19 @@ namespace uf2
 
                 case SkeletonStates.ATTACK:
                     _Animator.Play("PjAttack");
+                    hitbox.Damage = _atack1dmg;
                     break;
                 case SkeletonStates.ATTACK2:
                     _Animator.Play("PjAttack2");
+                    hitbox.Damage = _atack2dmg;
                     break;
                 case SkeletonStates.COMBO12:
                     _Animator.Play("PjAttack2");
+                    hitbox.Damage = (int)(_atack2dmg / 0.4f);
                     break;
                 case SkeletonStates.COMBO21:
                     _Animator.Play("PjAttack");
+                    hitbox.Damage = (int)(_atack2dmg / 0.2f);
                     break;
                 default:
                     break;
@@ -202,5 +211,11 @@ namespace uf2
             UpdateState(_CurrentState);
         }
 
+        public void ReceiveDamage(float damage)
+        {
+            this._hp-=damage;
+            if(this._hp < 0)
+                Destroy(this.gameObject);
+        }
     }
 }
