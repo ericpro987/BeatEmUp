@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EnemySO
   m_EditorClassIdentifier: 
   hp: 20
-  dmg: 3
-  dmg2: 17
+  dmg: 5
+  dmg2: 2
   clipAttack: {fileID: 7400000, guid: 11907c8c9960a6446b90d4940d567eb9, type: 2}
   clipAttack2: {fileID: 7400000, guid: 057e45498fa22a24b9126f5243e8e374, type: 2}
-  rangeAttack: 0
+  rangeAttack: 3.540731

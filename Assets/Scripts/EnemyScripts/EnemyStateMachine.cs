@@ -1,28 +1,36 @@
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace uf2
 {
     [RequireComponent(typeof(Animator))]
-    public class SkeletonStateMachineSwitch : MonoBehaviour, IDamageable
+    public class EnemyStateMachine: MonoBehaviour, IDamageable
     {
-        [SerializeField] private EnemySO _enemySO;
+        [SerializeField] public EnemySO _enemySO;
         private Animator _animator;
         [SerializeField] private Hitbox hitbox;
         [SerializeField] private RangeDetection _rangPerseguir;
         [SerializeField] private RangeDetection _rangAtac;
         [SerializeField] private Knife[] knifes;
-        private void Awake()
+        
+        void OnEnable()
         {
             _animator = GetComponent<Animator>();
             this.hp = _enemySO.hp;
+            this._rangAtac.GetComponent<CircleCollider2D>().radius = this._enemySO.rangeAttack;
             _rangPerseguir.OnEnter += PerseguirDetected;
             _rangPerseguir.OnStay += PerseguirDetected;
             _rangPerseguir.OnExit += PerseguirUndetected;
             _rangAtac.OnEnter += AtacarDetected;
             _rangAtac.OnStay += AtacarDetected;
             _rangAtac.OnExit += AtacarUndetected;
+        }
+        private void Awake()
+        {
+
         }
 
         private enum SkeletonStates { NULL, IDLE, ATTACK, ATTACK2, MOVE, COMBO12, COMBO21 }
@@ -158,8 +166,16 @@ namespace uf2
         public void ReceiveDamage(float damage)
         {
             this.hp -= damage;
-            if (this.hp < 0)
-                this.gameObject.active = false;
+            if (this.hp <= 0)
+            {
+                this.gameObject.SetActive(false);
+                _rangPerseguir.OnEnter -= PerseguirDetected;
+                _rangPerseguir.OnStay -= PerseguirDetected;
+                _rangPerseguir.OnExit -= PerseguirUndetected;
+                _rangAtac.OnEnter -= AtacarDetected;
+                _rangAtac.OnStay -= AtacarDetected;
+                _rangAtac.OnExit -= AtacarUndetected;
+            }
         }
         private void PerseguirDetected(GameObject personatge)
         {
@@ -172,7 +188,7 @@ namespace uf2
         {
             this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
-
+        public bool cooldown = false;
         private void AtacarDetected(GameObject personatge)
         {
             if (personatge.name == "PJ")
@@ -181,8 +197,20 @@ namespace uf2
                 if (this.GetComponent<SpriteRenderer>().color == Color.white || this.GetComponent<SpriteRenderer>().color == Color.red)
                     ChangeState(SkeletonStates.ATTACK);
                 else
-                    ChangeState(SkeletonStates.ATTACK2);
+                {
+                    if (!cooldown)
+                    {
+                        ChangeState(SkeletonStates.ATTACK2);
+                        cooldown = true;
+                        StartCoroutine(cooldownFalse());
+                    }
+                }
             }
+        }
+        IEnumerator cooldownFalse()
+        {
+            yield return new WaitForSeconds(1.5f);
+            cooldown = false;
         }
         private void spawnKife()
         {
@@ -190,6 +218,7 @@ namespace uf2
             {
                 if (!knifes[x].gameObject.activeSelf)
                 {
+                    knifes[x].Damage = (int)(_enemySO.dmg2);
                     knifes[x].gameObject.transform.position =  this.transform.position;
                     knifes[x].gameObject.SetActive(true);
                     break;

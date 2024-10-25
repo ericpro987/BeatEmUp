@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 namespace uf2
 {
     [RequireComponent(typeof(Animator))]
-    public class PJStateMachineSwitch : MonoBehaviour, IDamageable
+    public class PJStateMachine: MonoBehaviour, IDamageable
     {
         [SerializeField] Hitbox hitbox;
         private Animator _Animator;
@@ -214,7 +214,7 @@ namespace uf2
         public void ReceiveDamage(float damage)
         {
             this._hp-=damage;
-            if(this._hp < 0)
+            if(this._hp <= 0)
                 Destroy(this.gameObject);
         }
     }

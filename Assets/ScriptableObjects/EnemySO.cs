@@ -6,6 +6,7 @@ public class EnemySO : ScriptableObject
 {
     [SerializeField] public int hp;
     [SerializeField] public int dmg;
+    [SerializeField] public int dmg2;
     [SerializeField] public AnimationClip clipAttack;
     [SerializeField] public AnimationClip clipAttack2;
     [SerializeField] public float rangeAttack;
