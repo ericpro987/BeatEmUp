@@ -10,4 +10,5 @@ public class EnemySO : ScriptableObject
     [SerializeField] public AnimationClip clipAttack;
     [SerializeField] public AnimationClip clipAttack2;
     [SerializeField] public float rangeAttack;
+    [SerializeField] public Color color;
 }

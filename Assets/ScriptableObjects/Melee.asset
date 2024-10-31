@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cde28f0ec8523234fb2b2a8b8097e83a, type: 3}
-  m_Name: EnemySO
+  m_Name: Melee
   m_EditorClassIdentifier: 
-  hp: 20
-  dmg: 5
+  hp: 10
+  dmg: 3
   dmg2: 2
-  clipAttack: {fileID: 7400000, guid: 11907c8c9960a6446b90d4940d567eb9, type: 2}
-  clipAttack2: {fileID: 7400000, guid: 11907c8c9960a6446b90d4940d567eb9, type: 2}
-  rangeAttack: 3.540731
-  color: {r: 0.13221629, g: 0.6075471, b: 0, a: 1}
+  clipAttack: {fileID: 7400000, guid: e3cccec495400ed47a980cef2066e38a, type: 2}
+  clipAttack2: {fileID: 7400000, guid: e3cccec495400ed47a980cef2066e38a, type: 2}
+  rangeAttack: 1.04035
+  color: {r: 1, g: 0, b: 0, a: 1}

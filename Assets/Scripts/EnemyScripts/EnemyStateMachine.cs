@@ -15,9 +15,13 @@ namespace uf2
         [SerializeField] private RangeDetection _rangPerseguir;
         [SerializeField] private RangeDetection _rangAtac;
         [SerializeField] private Knife[] knifes;
+        [SerializeField] private RondaController ronda;
         
         void OnEnable()
         {
+            this.cooldown = false;
+            this.ChangeState(SkeletonStates.IDLE);
+            this.GetComponent<SpriteRenderer>().color = _enemySO.color;
             _animator = GetComponent<Animator>();
             this.hp = _enemySO.hp;
             this._rangAtac.GetComponent<CircleCollider2D>().radius = this._enemySO.rangeAttack;
@@ -77,6 +81,7 @@ namespace uf2
                     break;
                 case SkeletonStates.ATTACK2:
                     _animator.Play("RedSkeletonAttack2");
+                    hitbox.Damage = _enemySO.dmg2;
                     break;
                 default:
                     break;
@@ -168,6 +173,7 @@ namespace uf2
             this.hp -= damage;
             if (this.hp <= 0)
             {
+                ronda.enemicsActuals--;
                 this.gameObject.SetActive(false);
                 _rangPerseguir.OnEnter -= PerseguirDetected;
                 _rangPerseguir.OnStay -= PerseguirDetected;
@@ -200,8 +206,8 @@ namespace uf2
                 {
                     if (!cooldown)
                     {
-                        ChangeState(SkeletonStates.ATTACK2);
                         cooldown = true;
+                        ChangeState(SkeletonStates.ATTACK2);
                         StartCoroutine(cooldownFalse());
                     }
                 }
@@ -209,7 +215,7 @@ namespace uf2
         }
         IEnumerator cooldownFalse()
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2f);
             cooldown = false;
         }
         private void spawnKife()
